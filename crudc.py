@@ -5,36 +5,37 @@ import os
 import shutil
 import glob
 import ntpath
+import re
 
 DIR_TEMPLATE ='template'
 DIR_OUTPUT = 'output'
 
 NOT_REPLACE_FLAG = 'DONOT_REPLACE'
 
-def crudc_replace_names(module_name, struct_name, key_name, payload_name):
-    for input_path in glob.glob(DIR_TEMPLATE + r'/**/*', recursive=True):
-        if not os.path.isfile(input_path):
-            continue
+def crudc_replace_in_one_file(path, module_name, struct_name, key_name, payload_name):
+    with open(path, 'r') as fp:
+        file_string = fp.read()
+        file_string = re.sub('payloadname_s \{((.|\n)*?)\};', 'struct payloadname_s {\n    int payload_haha;\n};', file_string)
+        file_string = re.sub('structname', struct_name, file_string)
+        file_string = re.sub('keyname', key_name, file_string)
+        file_string = re.sub('payloadname', payload_name, file_string)
+        file_string = re.sub('modulename', module_name, file_string)
 
-        with open(input_path, 'r') as read_fp:
-            output_path = input_path.replace(DIR_TEMPLATE, DIR_OUTPUT)
-            os.makedirs(os.path.dirname(output_path), exist_ok=True)
-            with open(output_path, 'w') as write_fp:
-                for line in read_fp:
-                    line = line.replace('modulename', module_name) if module_name != NOT_REPLACE_FLAG else line 
-                    line = line.replace('structname', struct_name) if struct_name != NOT_REPLACE_FLAG else line
-                    line = line.replace('keyname', key_name) if key_name != NOT_REPLACE_FLAG else line
-                    line = line.replace('payloadname', payload_name) if payload_name != NOT_REPLACE_FLAG else line
-                    write_fp.write(line)
+        with open(path, 'w') as fp:
+            fp.write(file_string)
+
+
+def crudc_replace_names(module_name, struct_name, key_name, payload_name):
+    for file_path in glob.glob(DIR_OUTPUT + r'/**/*', recursive=True):
+        if not os.path.isfile(file_path):
+            continue
+        crudc_replace_in_one_file(file_path, module_name, struct_name, key_name, payload_name)
+        
 
 def crudc_print_help():
     print('CRUDC Help:')
     print('    example: ./crudc.py --module=[modulename] --struct=[structname] --key=[keyname] --payload=[payloadname]')
     return
-
-def crudc_replace_struct(struct_name):
-    # regular exp: payloadname_s((.|\n)*)\};
-    pass
 
 def main():
     try:
@@ -65,6 +66,9 @@ def main():
         key_name = NOT_REPLACE_FLAG
     if 'payload_name' not in locals():
         payload_name = NOT_REPLACE_FLAG
+
+    shutil.rmtree(DIR_OUTPUT + r'/', ignore_errors=True)
+    shutil.copytree(DIR_TEMPLATE + r'/', DIR_OUTPUT + r'/')
 
     crudc_replace_names(module_name, struct_name, key_name, payload_name)
 
