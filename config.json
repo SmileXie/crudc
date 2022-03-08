@@ -1,0 +1,6 @@
+{
+    "modulename": "sm",
+    "structname": "student",
+    "keyname": "stu_no",
+    "payloadname": "stu_data"
+}
