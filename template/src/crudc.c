@@ -4,20 +4,20 @@
 #include "crudc.h"
 #include "list.h"
 
-struct list_head modulename_structname_listhead;
+struct list_head modulename_objname_listhead;
 
-int modulename_structname_init(void)
+int modulename_objname_mgmt_init(void)
 {
-    INIT_LIST_HEAD(&modulename_structname_listhead);
+    INIT_LIST_HEAD(&modulename_objname_listhead);
     
     return RET_SUCC;
 }
 
-struct structname_s* modulename_structname_find(struct keyname_s key)
+struct objname_s* modulename_objname_find(struct keyname_s key)
 {
-    struct structname_s *node;
+    struct objname_s *node;
 
-    list_for_each_entry(node, &modulename_structname_listhead, mountpoint) {
+    list_for_each_entry(node, &modulename_objname_listhead, mountpoint) {
         if (memcmp(&(node->key), &key, sizeof(struct keyname_s)) == 0) {
             return node;
         }
@@ -27,11 +27,11 @@ struct structname_s* modulename_structname_find(struct keyname_s key)
 }
 
 
-int modulename_structname_add(struct keyname_s key, struct payloadname_s payload)
+int modulename_objname_add(struct keyname_s key, struct payloadname_s payload)
 {
-    struct structname_s *node;
+    struct objname_s *node;
 
-    node = (struct structname_s *)malloc(sizeof(struct structname_s));
+    node = (struct objname_s *)malloc(sizeof(struct objname_s));
     if (node == NULL) {
         return RET_ALLOC_FAIL;
     }
@@ -39,16 +39,16 @@ int modulename_structname_add(struct keyname_s key, struct payloadname_s payload
     memcpy(&node->key, &key, sizeof(struct keyname_s));
     memcpy(&node->payload, &payload, sizeof(struct payloadname_s));
 
-    list_add_tail(&node->mountpoint, &modulename_structname_listhead);
+    list_add_tail(&node->mountpoint, &modulename_objname_listhead);
 
     return RET_SUCC;
 }
 
-int modulename_structname_del(struct keyname_s key)
+int modulename_objname_del(struct keyname_s key)
 {
-    struct structname_s *node;
+    struct objname_s *node;
 
-    node = modulename_structname_find(key);
+    node = modulename_objname_find(key);
     if (node == NULL) {
         return RET_NOT_FOUND;
     }
@@ -59,11 +59,11 @@ int modulename_structname_del(struct keyname_s key)
     return RET_SUCC;
 }
 
-int modulename_structname_set(struct keyname_s key, struct payloadname_s payload)
+int modulename_objname_set(struct keyname_s key, struct payloadname_s payload)
 {
-    struct structname_s *node;
+    struct objname_s *node;
 
-    node = modulename_structname_find(key);
+    node = modulename_objname_find(key);
     if (node == NULL) {
         return RET_NOT_FOUND;
     }
@@ -73,15 +73,15 @@ int modulename_structname_set(struct keyname_s key, struct payloadname_s payload
     return RET_SUCC;
 }
 
-int modulename_structname_get(struct keyname_s key, struct payloadname_s *payload)
+int modulename_objname_get(struct keyname_s key, struct payloadname_s *payload)
 {
-    struct structname_s *node;
+    struct objname_s *node;
 
     if (payload == NULL) {
         return RET_INVALID_PARAM;
     }
 
-    node = modulename_structname_find(key);
+    node = modulename_objname_find(key);
     if (node == NULL) {
         return RET_NOT_FOUND;
     }

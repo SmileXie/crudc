@@ -18,11 +18,17 @@ def crudc_replace_in_one_file(path, cfg):
     with open(path, 'r') as fp:
         file_string = fp.read()
         # file_string = re.sub('payloadname_s \{((.|\n)*?)\};', 'struct payloadname_s {\n    int payload_haha;\n};', file_string)
-        file_string = re.sub('structname', cfg['structname'], file_string)
+        file_string = re.sub('objname', cfg['objname'], file_string)
         file_string = re.sub('keyname', cfg['keyname'], file_string)
         file_string = re.sub('payloadname', cfg['payloadname'], file_string)
         file_string = re.sub('modulename', cfg['modulename'], file_string)
 
+        keyname_struct_regexp = cfg['keyname'] + '_s \{((.|\n)*?)\};'
+        file_string = re.sub(keyname_struct_regexp, cfg['keyname'] + '_s ' + cfg['key_struct'], file_string)
+        
+        payload_struct_regexp = cfg['payloadname'] + '_s \{((.|\n)*?)\};'
+        file_string = re.sub(payload_struct_regexp, cfg['payloadname'] + '_s ' + cfg['payload_struct'], file_string)
+        
         with open(path, 'w') as fp:
             fp.write(file_string)
 

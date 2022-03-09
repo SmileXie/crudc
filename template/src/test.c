@@ -9,81 +9,81 @@ int main()
     int ret;
     int i;
 
-    modulename_structname_init();
+    modulename_objname_mgmt_init();
 
-    key.keyele = 10;
-    payload.payload_data = 20;
-    printf("add node: key %d, payload %d\n", key.keyele, payload.payload_data);
+    key.student_no = 10;
+    payload.age = 20;
+    printf("add node: key %d, payload %d\n", key.student_no, payload.age);
 
-    ret = modulename_structname_add(key, payload);
+    ret = modulename_objname_add(key, payload);
     if (ret != RET_SUCC) {
         printf("fail to add.\n");
     }
 
-    ret = modulename_structname_get(key, &payload);
+    ret = modulename_objname_get(key, &payload);
     if (ret != RET_SUCC) {
         printf("fail to get.\n");
         exit(-1);
     }
 
-    printf("get node: key %d, payload %d\n", key.keyele, payload.payload_data);
+    printf("get node: key %d, payload %d\n", key.student_no, payload.age);
 
     for (i = 0; i < 20; i++) {
-        key.keyele = i * 10;
-        payload.payload_data = i * 10 + 5;
-        printf("add node: key %d, payload %d\n", key.keyele, payload.payload_data);
+        key.student_no = i * 10;
+        payload.age = i * 10 + 5;
+        printf("add node: key %d, payload %d\n", key.student_no, payload.age);
 
-        ret = modulename_structname_add(key, payload);
+        ret = modulename_objname_add(key, payload);
         if (ret != RET_SUCC) {
             printf("fail to add.\n");
         }
 
     }
 
-    key.keyele = 30;
+    key.student_no = 30;
 
-    ret = modulename_structname_get(key, &payload);
+    ret = modulename_objname_get(key, &payload);
     if (ret != RET_SUCC) {
         printf("fail to get.\n");
         exit(-1);
     }
 
-    printf("get node: key %d, payload %d\n", key.keyele, payload.payload_data);
+    printf("get node: key %d, payload %d\n", key.student_no, payload.age);
 
-    key.keyele = 30;
-    payload.payload_data = 100;
-    printf("set node: key %d, payload %d\n", key.keyele, payload.payload_data);
+    key.student_no = 30;
+    payload.age = 100;
+    printf("set node: key %d, payload %d\n", key.student_no, payload.age);
 
-    ret = modulename_structname_set(key, payload);
+    ret = modulename_objname_set(key, payload);
     if (ret != RET_SUCC) {
         printf("fail to set.\n");
         exit(-1);
     }
 
-    ret = modulename_structname_get(key, &payload);
+    ret = modulename_objname_get(key, &payload);
     if (ret != RET_SUCC) {
         printf("fail to get.\n");
         exit(-1);
     }
 
-    printf("get node: key %d, payload %d\n", key.keyele, payload.payload_data);
+    printf("get node: key %d, payload %d\n", key.student_no, payload.age);
 
-    key.keyele = 180;
+    key.student_no = 180;
 
-    printf("del node: key %d\n", key.keyele);
-    ret = modulename_structname_del(key);
+    printf("del node: key %d\n", key.student_no);
+    ret = modulename_objname_del(key);
     if (ret != RET_SUCC) {
         printf("fail to del.\n");
         exit(-1);
     }
 
-    ret = modulename_structname_get(key, &payload);
+    ret = modulename_objname_get(key, &payload);
     if (ret != RET_NOT_FOUND) {
         printf("fail to del.\n");
         exit(-1);
     }
 
-    printf("get node: key %d not found ok\n", key.keyele);
+    printf("get node: key %d not found ok\n", key.student_no);
 
     return 0;
 }

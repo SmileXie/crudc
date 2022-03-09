@@ -17,19 +17,19 @@ struct payloadname_s {
     int payload_data;
 };
 
-struct structname_s {
+struct objname_s {
     struct list_head mountpoint;
     struct keyname_s key;
     struct payloadname_s payload;
 };
 
-int modulename_structname_init(void);
-struct structname_s* modulename_structname_find(struct keyname_s key);
+int modulename_objname_mgmt_init(void);
+struct objname_s* modulename_objname_find(struct keyname_s key);
 
-int modulename_structname_add(struct keyname_s key, struct payloadname_s payload);
-int modulename_structname_del(struct keyname_s key);
-int modulename_structname_set(struct keyname_s key, struct payloadname_s payload);
-int modulename_structname_get(struct keyname_s key, struct payloadname_s *payload);
+int modulename_objname_add(struct keyname_s key, struct payloadname_s payload);
+int modulename_objname_del(struct keyname_s key);
+int modulename_objname_set(struct keyname_s key, struct payloadname_s payload);
+int modulename_objname_get(struct keyname_s key, struct payloadname_s *payload);
 
 #endif
 
