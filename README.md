@@ -13,7 +13,7 @@ and then file the codes in `output` directory.
 
 A json format file defining fields to be replaced.
 
-* modulename: a software module name that will be a prefix of function names.
+* modulename: a software module name that will be a prefix of symbol names.
 * objname: the name of object to CRUD
 * keyname: the name of key of object, that is used for unique field for searching the objects.
 * key_struct: a C-lang struct defining the key of object.
